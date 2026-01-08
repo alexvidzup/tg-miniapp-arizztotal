@@ -2,19 +2,105 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Mini App Test</title>
+  <title>Content Library</title>
+
+  <!-- Telegram SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 16px;
+      margin: 0;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      background: #1f1f1f;
+      color: white;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #333;
+    }
+  </style>
 </head>
 
-<body style="background:black; color:white; font-family:sans-serif; padding:20px;">
-  <h1>Telegram Mini App</h1>
+<body>
+  <div id="app">
+    <h2>📂 Browse Content</h2>
 
-  <button onclick="Telegram.WebApp.showAlert('Telegram works')">
-    Test Telegram
-  </button>
+    <!-- Categories -->
+    <div id="categories">
+      <button onclick="openCategory('dating')">Dating</button>
+      <button onclick="openCategory('energy')">Energy</button>
+    </div>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Videos -->
+    <div id="videos" style="display:none;"></div>
+  </div>
+
   <script>
+    // --- DATA ---
+    const DATA = {
+      dating: [
+        {
+          title: "Why attraction actually works",
+          url: "https://t.me/yourchannel/123"
+        }
+      ],
+      energy: [
+        {
+          title: "Why caffeine drains you",
+          url: "https://t.me/yourchannel/456"
+        }
+      ]
+    };
+
+    // --- FUNCTIONS ---
+    function openCategory(category) {
+      const videosDiv = document.getElementById("videos");
+      videosDiv.innerHTML = `
+        <button class="secondary" onclick="goBack()">← Back</button>
+        <h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+      `;
+
+      DATA[category].forEach(video => {
+        videosDiv.innerHTML += `
+          <button onclick="openVideo('${video.url}')">
+            ▶ ${video.title}
+          </button>
+        `;
+      });
+
+      document.getElementById("categories").style.display = "none";
+      videosDiv.style.display = "block";
+    }
+
+    function goBack() {
+      document.getElementById("videos").style.display = "none";
+      document.getElementById("categories").style.display = "block";
+    }
+
+    function openVideo(url) {
+      Telegram.WebApp.openTelegramLink(url);
+    }
+
+    // --- TELEGRAM INIT ---
     Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
   </script>
 </body>
 </html>
