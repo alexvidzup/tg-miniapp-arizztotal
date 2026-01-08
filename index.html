@@ -82,7 +82,7 @@ fetch("https://opensheet.elk.sh/1K4rJtQUi4k5S6ihxogTM4ilWvTGsjeIv-2mfcMbPUP8/She
   } else {
     videosDiv.innerHTML = `
       <button class="secondary" onclick="goBack()">← Back</button>
-      <h2>${category.replace("_", " ")}</h2>
+      <h2>${category.replace("_", " ").toUpperCase()}</h2>
     `;
 
     DATA[category].forEach(video => {
