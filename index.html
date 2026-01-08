@@ -72,23 +72,31 @@ fetch("https://opensheet.elk.sh/1K4rJtQUi4k5S6ihxogTM4ilWvTGsjeIv-2mfcMbPUP8/She
 
     // --- FUNCTIONS ---
     function openCategory(category) {
-      const videosDiv = document.getElementById("videos");
-      videosDiv.innerHTML = `
-        <button class="secondary" onclick="goBack()">← Back</button>
-        <h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+  const videosDiv = document.getElementById("videos");
+
+  if (!DATA[category] || DATA[category].length === 0) {
+    videosDiv.innerHTML = `
+      <button class="secondary" onclick="goBack()">← Back</button>
+      <h2>No content yet</h2>
+    `;
+  } else {
+    videosDiv.innerHTML = `
+      <button class="secondary" onclick="goBack()">← Back</button>
+      <h2>${category.replace("_", " ")}</h2>
+    `;
+
+    DATA[category].forEach(video => {
+      videosDiv.innerHTML += `
+        <button onclick="openVideo('${video.url}')">
+          ▶ ${video.title}
+        </button>
       `;
+    });
+  }
 
-      DATA[category].forEach(video => {
-        videosDiv.innerHTML += `
-          <button onclick="openVideo('${video.url}')">
-            ▶ ${video.title}
-          </button>
-        `;
-      });
-
-      document.getElementById("categories").style.display = "none";
-      videosDiv.style.display = "block";
-    }
+  document.getElementById("categories").style.display = "none";
+  videosDiv.style.display = "block";
+}
 
     function goBack() {
       document.getElementById("videos").style.display = "none";
