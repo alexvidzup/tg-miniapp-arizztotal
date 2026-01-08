@@ -54,21 +54,21 @@
   </div>
 
   <script>
-    // --- DATA ---
-    const DATA = {
-      party_videos: [
-        {
-          title: "Mexican girl & Alex party",
-          url: "https://t.me/c/3598956120/18"
-        }
-      ],
-      lay_reports: [
-        {
-          title: "Lay report Ukrainian girl Bali",
-          url: "https://t.me/c/3598956120/24"
-        }
-      ]
-    };
+    let DATA = {};
+
+fetch("https://opensheet.elk.sh/1K4rJtQUi4k5S6ihxogTM4ilWvTGsjeIv-2mfcMbPUP8/Sheet1")
+  .then(res => res.json())
+  .then(rows => {
+    rows.forEach(row => {
+      const category = row.Category;
+      if (!DATA[category]) DATA[category] = [];
+
+      DATA[category].push({
+        title: row.Title,
+        url: row.Link
+      });
+    });
+  });
 
     // --- FUNCTIONS ---
     function openCategory(category) {
@@ -103,5 +103,6 @@
     Telegram.WebApp.ready();
     Telegram.WebApp.expand();
   </script>
+  
 </body>
 </html>
