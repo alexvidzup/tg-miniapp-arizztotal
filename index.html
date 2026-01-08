@@ -6,11 +6,15 @@
 </head>
 
 <body style="background:black; color:white; font-family:sans-serif; padding:20px;">
-  <h1>Mini App is working</h1>
-  <p>If you can see this, HTML is fine.</p>
+  <h1>Telegram Mini App</h1>
 
-  <button onclick="alert('Button works')">
-    Test Button
+  <button onclick="Telegram.WebApp.showAlert('Telegram works')">
+    Test Telegram
   </button>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    Telegram.WebApp.ready();
+  </script>
 </body>
 </html>
